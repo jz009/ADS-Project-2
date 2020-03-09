@@ -193,16 +193,6 @@ public class BinaryTree<K extends Comparable<K>, V> {
             oldR.parent = cur;
         if(oldRL != null)
             oldRL.parent = pivot.left;
-
-
-//        Node<K,V> pivot = cur.left;
-//        if(pivot.right!=null){
-//            pivot.right.parent =cur;
-//        }
-//        cur.left = pivot.right;
-//        pivot.parent = cur.parent;
-//        cur.parent = pivot;
-//        pivot.right = cur;
     }
 
     public Iterator iterator() {
