@@ -131,28 +131,24 @@ public class BinaryTree<K extends Comparable<K>, V> {
 
     private void rotateLL(Node<K, V> cur) {
         Node<K, V> oldRootNewLeft = null;
-        if (cur.left.right != null) {
+        if (cur.left.right != null)
             oldRootNewLeft = cur.left.right;
-        }
         Node<K, V> newRoot = cur.left;
         newRoot.right = cur;
         newRoot.parent = cur.parent;
         cur.parent = newRoot;
         cur.left = oldRootNewLeft;
-        if (oldRootNewLeft != null) {
+        if (oldRootNewLeft != null)
             oldRootNewLeft.parent = cur;
-        }
     }
 
     private void rotateLR(Node<K, V> cur) {
         Node<K, V> oldRootNewLeft = null;
-        if (cur.left.right.right != null) {
+        if (cur.left.right.right != null)
             oldRootNewLeft = cur.left.right.right;
-        }
         Node<K, V> newRootOldLeft = null;
-        if (cur.left.right.left != null) {
+        if (cur.left.right.left != null)
             newRootOldLeft = cur.left.right.left;
-        }
         Node<K, V> newRoot = cur.left.right;
         newRoot.left = newRoot.parent;
         newRoot.right = cur;
@@ -160,24 +156,21 @@ public class BinaryTree<K extends Comparable<K>, V> {
         cur.parent = newRoot;
         newRoot.left.parent = newRoot;
         newRoot.left.right = newRootOldLeft;
-        if (oldRootNewLeft != null) {
+        if (oldRootNewLeft != null)
             oldRootNewLeft.parent = cur;
-        }
-        if (newRootOldLeft != null) {
+        if (newRootOldLeft != null)
             newRootOldLeft.parent = newRoot.right.right;
-        }
-
     }
 
     private void rotateRR(Node<K, V> cur) {
         Node<K,V> oldR = null;
-        if(cur.right.left != null){
+        if(cur.right.left != null)
             oldR = cur.right.left;
-        }
         Node<K, V> pivot = cur.right;
         pivot.left = cur;
         pivot.parent = cur.parent;
         cur.parent = pivot;
+        cur.right = oldR;
         if(oldR != null)
             oldR.parent = cur;
     }
