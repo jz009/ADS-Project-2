@@ -138,11 +138,46 @@ public class BinaryTree<K extends Comparable<K>, V> {
     }
 
     private void rotateRR(Node<K, V> cur) {
-
+        Node<K,V> oldR = null;
+        if(cur.right.left != null){
+            oldR = cur.right.left;
+        }
+        Node<K, V> pivot = cur.right;
+        pivot.left = cur;
+        pivot.parent = cur.parent;
+        cur.parent = pivot;
+        if(oldR != null)
+            oldR.parent = cur;
     }
 
     private void rotateRL(Node<K, V> cur) {
+        Node<K, V> oldR = null;
+        if(cur.right.left.left != null)
+            oldR = cur.right.left.left;
+        Node<K,V> oldRL = null;
+        if(cur.right.left.right != null)
+            oldRL = cur.right.left.right;
+        Node<K, V> pivot = cur.right.left;
+        pivot.right = pivot.parent;
+        pivot.left = cur;
+        cur.right = oldR;
+        cur.parent = pivot;
+        pivot.right.parent = pivot;
+        pivot.right.left = oldRL;
+        if(oldR != null)
+            oldR.parent = cur;
+        if(oldRL != null)
+            oldRL.parent = pivot.left;
 
+
+//        Node<K,V> pivot = cur.left;
+//        if(pivot.right!=null){
+//            pivot.right.parent =cur;
+//        }
+//        cur.left = pivot.right;
+//        pivot.parent = cur.parent;
+//        cur.parent = pivot;
+//        pivot.right = cur;
     }
 
     public Iterator iterator() {
