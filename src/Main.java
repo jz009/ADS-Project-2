@@ -12,11 +12,9 @@ public class Main {
 
         for (int i=0; i<20; ++i) {
             tree.add(keys[i], i);
-            tree.makePic(String.format("tree%02d",i));
         }
 
-        tree.remove(keys[0]);
-        tree.makePic(String.format("tree-remove-%d", keys[0]));
+        tree.makePic("tree");
 
         var iter = tree.iterator();
         while (iter.hasNext()) {
