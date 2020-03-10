@@ -181,6 +181,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
         cur.left = oldRootNewLeft;
         if (oldRootNewLeft != null)
             oldRootNewLeft.parent = cur;
+        newRoot.resetHeight();
     }
 
     private void rotateLR(Node<K, V> cur) {
@@ -201,6 +202,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
             oldRootNewLeft.parent = cur;
         if (newRootOldLeft != null)
             newRootOldLeft.parent = newRoot.right.right;
+        newRoot.resetHeight();
     }
 
     public V find(K key){
@@ -234,6 +236,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
         cur.right = oldR;
         if(oldR != null)
             oldR.parent = cur;
+        pivot.resetHeight();
     }
 
     private void rotateRL(Node<K, V> cur) {
@@ -254,6 +257,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
             oldR.parent = cur;
         if(oldRL != null)
             oldRL.parent = pivot.left;
+        pivot.resetHeight();
     }
 
     public Iterator iterator() {
