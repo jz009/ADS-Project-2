@@ -42,6 +42,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
                 boolean res = add(key, value, cur.left);
                 if (res)
                     cur.resetHeight();
+                balance(cur);
                 return res;
             }
             else {
@@ -49,6 +50,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
                 cur.left.parent = cur;
                 cur.resetHeight();
                 size++;
+                balance(cur);
                 return true;
             }
         }
@@ -57,6 +59,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
                 boolean res = add(key, value, cur.right);
                 if (res)
                     cur.resetHeight();
+                balance(cur);
                 return res;
             }
             else {
@@ -64,6 +67,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
                 cur.right.parent = cur;
                 cur.resetHeight();
                 size++;
+                balance(cur);
                 return true;
             }
         }
@@ -127,6 +131,43 @@ public class BinaryTree<K extends Comparable<K>, V> {
         while (right.left != null)
             right = right.left;
         return right;
+    }
+    private void balance(Node<K, V> cur) {
+        int leftHeight = 0;
+        int rightHeight = 0;
+        if (cur.left != null)
+             leftHeight = cur.left.height;
+        if (cur.right != null)
+            rightHeight = cur.right.height;
+        if (Math.abs(leftHeight - rightHeight) < 2)
+            return;
+
+        Node<K, V> leftChild = cur.left;
+        Node<K, V> rightChild = cur.right;
+
+        if (leftHeight > rightHeight) {
+            if (leftChild.right == null) {
+                rotateLL(cur);
+            }
+            else if (leftChild.left == null) {
+                rotateLR(cur);
+            }
+            else if (leftChild.right.height > leftChild.left.height)
+                rotateLR(cur);
+            else rotateLL(cur);
+        }
+        else {
+            if (rightChild.right == null) {
+                rotateRL(cur);
+            }
+            else if (rightChild.left == null) {
+                rotateRR(cur);
+            }
+            else if (rightChild.right.height > rightChild.left.height)
+                rotateRR(cur);
+            else rotateRL(cur);
+        }
+
     }
 
     private void rotateLL(Node<K, V> cur) {
