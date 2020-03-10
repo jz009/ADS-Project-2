@@ -162,6 +162,26 @@ public class BinaryTree<K extends Comparable<K>, V> {
             newRootOldLeft.parent = newRoot.right.right;
     }
 
+    public V find(K key){
+        return find(key, root);
+    }
+
+    private V find(K key, Node<K, V> cur){
+        if(cur == null)
+            return null;
+        int c = comp.compare(key, cur.key);
+        if (c < 0){
+            return find(key, cur.left);
+        }
+        else if(c == 0){
+            return cur.value;
+        }
+        else{
+            return find(key, cur.right);
+        }
+    }
+
+
     private void rotateRR(Node<K, V> cur) {
         Node<K,V> oldR = null;
         if(cur.right.left != null)
