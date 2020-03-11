@@ -170,65 +170,6 @@ public class BinaryTree<K extends Comparable<K>, V> {
 
     }
 
-    private void rotateLL(Node<K, V> cur) {
-        System.out.println("rotate LL");
-        Node<K, V> oldRootNewLeft = null;
-        if (cur.left.right != null)
-            oldRootNewLeft = cur.left.right;
-        Node<K, V> newRoot = cur.left;
-        newRoot.right = cur;
-        newRoot.parent = cur.parent;
-        if (cur.parent == null) {
-            root = newRoot;
-        }
-        if (cur.parent != null) {
-            if (cur.parent.left == cur) {
-                cur.parent.left = newRoot;
-            }
-            else
-                cur.parent.left = newRoot;
-        }
-        cur.parent = newRoot;
-        cur.left = oldRootNewLeft;
-        if (oldRootNewLeft != null)
-            oldRootNewLeft.parent = cur;
-        newRoot.resetHeight();
-        if (newRoot.parent == null) {
-            root = newRoot;
-        }
-    }
-
-    private void rotateLR(Node<K, V> cur) {
-        System.out.println("rotate LR");
-        Node<K, V> oldRootNewLeft = null;
-        if (cur.left.right.right != null)
-            oldRootNewLeft = cur.left.right.right;
-        Node<K, V> newRootOldLeft = null;
-        if (cur.left.right.left != null)
-            newRootOldLeft = cur.left.right.left;
-        Node<K, V> newRoot = cur.left.right;
-        newRoot.left = newRoot.parent;
-        newRoot.right = cur;
-        if (cur.parent != null) {
-            if (cur.parent.left == cur) {
-                cur.parent.left = newRoot;
-            }
-            else
-                cur.parent.left = newRoot;
-        }
-        cur.left = oldRootNewLeft;
-        cur.parent = newRoot;
-        newRoot.left.parent = newRoot;
-        newRoot.left.right = newRootOldLeft;
-        if (oldRootNewLeft != null)
-            oldRootNewLeft.parent = cur;
-        if (newRootOldLeft != null)
-            newRootOldLeft.parent = newRoot.left;
-        newRoot.resetHeight();
-        if (newRoot.parent == null) {
-            root = newRoot;
-        }
-    }
 
     public V find(K key){
         return find(key, root);
@@ -249,62 +190,136 @@ public class BinaryTree<K extends Comparable<K>, V> {
         }
     }
 
+    private void rotateLL(Node<K, V> N) {
+        Node<K, V> L = N.left;
+        Node<K, V> LR = null;
+        Node<K, V> NPar = N.parent;
+        if (L.right != null)
+            LR = L.right;
 
-    private void rotateRR(Node<K, V> cur) {
-        System.out.println("rotate RR");
-        Node<K,V> oldR = null;
-        if(cur.right.left != null)
-            oldR = cur.right.left;
-        Node<K, V> pivot = cur.right;
-        pivot.left = cur;
-        pivot.parent = cur.parent;
-        if (cur.parent != null) {
-            if (cur.parent.left == cur) {
-                cur.parent.left = pivot;
+        L.parent = NPar;
+        L.right = N;
+        if (N.parent == null) {
+            root = L;
+        }
+        if (L.parent != null) {
+            if (NPar.left == N) {
+                NPar.left = L;
             }
             else
-                cur.parent.right = pivot;
+                NPar.right = L;
         }
-        cur.parent = pivot;
-        cur.right = oldR;
-        if(oldR != null)
-            oldR.parent = cur;
-        pivot.resetHeight();
-        if (pivot.parent == null) {
-            root = pivot;
+        N.parent = L;
+        N.left = LR;
+        if (LR != null)
+            LR.parent = N;
+        if (LR != null) {
+            LR.resetHeight();
         }
+        N.resetHeight();
+        L.resetHeight();
     }
 
-    private void rotateRL(Node<K, V> cur) {
-        System.out.println("rotate RL");
-        Node<K, V> oldR = null;
-        if(cur.right.left.left != null)
-            oldR = cur.right.left.left;
-        Node<K,V> oldRL = null;
-        if(cur.right.left.right != null)
-            oldRL = cur.right.left.right;
-        Node<K, V> pivot = cur.right.left;
-        pivot.right = pivot.parent;
-        pivot.left = cur;
-        if (cur.parent != null) {
-            if (cur.parent.left == cur) {
-                cur.parent.left = pivot;
+    private void rotateLR(Node<K, V> N) {
+        Node<K, V> LR = N.left.right;
+        Node<K, V> LRR = null;
+        Node<K, V> NPar = N.parent;
+        if (LR.right != null)
+            LRR = LR.right;
+        Node<K, V> LRL = null;
+        if (LR.left != null)
+            LRL = LR.left;
+
+        LR.parent = NPar;
+        LR.left = N.left;
+        LR.right = N;
+        if (NPar != null) {
+            if (NPar.left == N) {
+                NPar.left = LR;
             }
             else
-                cur.parent.right = pivot;
+                NPar.right = LR;
         }
-        cur.right = oldR;
-        cur.parent = pivot;
-        pivot.right.parent = pivot;
-        pivot.right.left = oldRL;
-        if(oldR != null)
-            oldR.parent = cur;
-        if(oldRL != null)
-            oldRL.parent = pivot.right;
-        pivot.resetHeight();
-        if (pivot.parent == null) {
-            root = pivot;
+        N.left = LRR;
+        N.parent = LR;
+        LR.left.right = LRL;
+        if (LRR != null)
+            LRR.parent = N;
+        if (LRL != null)
+            LRL.parent = LR.left;
+        if (LR.parent == null) {
+            root = LR;
         }
+        LR.left.resetHeight();
+        N.resetHeight();
+        LR.resetHeight();
+    }
+
+
+
+    private void rotateRR(Node<K, V> N) {
+        Node<K, V> R = N.right;
+        Node<K, V> RL = null;
+        Node<K, V> NPar = N.parent;
+        if (R.right != null)
+            RL = R.left;
+
+        R.parent = NPar;
+        R.left = N;
+        if (N.parent == null) {
+            root = R;
+        }
+        if (R.parent != null) {
+            if (NPar.left == N) {
+                NPar.left = R;
+            }
+            else
+                NPar.right = R;
+        }
+        N.parent = R;
+        N.right = RL;
+        if (RL != null)
+            RL.parent = N;
+        if (RL != null) {
+            RL.resetHeight();
+        }
+        N.resetHeight();
+        R.resetHeight();
+    }
+
+    private void rotateRL(Node<K, V> N) {
+        Node<K, V> RL = N.right.left;
+        Node<K, V> RLL = null;
+        Node<K, V> NPar = N.parent;
+        if (RL.left != null)
+            RLL = RL.left;
+        Node<K, V> RLR = null;
+        if (RL.right != null)
+            RLR = RL.right;
+
+        RL.parent = NPar;
+        RL.right = N.right;
+        RL.left = N;
+        if (NPar != null) {
+            if (NPar.left == N) {
+                NPar.left = RL;
+            }
+            else
+                NPar.right = RL;
+        }
+        N.right = RLL;
+        N.parent = RL;
+        RL.right.left = RLR;
+        if (RLL != null)
+            RLL.parent = N;
+        if (RLR != null)
+            RLR.parent = RL.right;
+        if (RL.parent == null) {
+            root = RL;
+        }
+        RL.right.resetHeight();
+        N.resetHeight();
+        RL.resetHeight();
     }
 
     public Iterator iterator() {
