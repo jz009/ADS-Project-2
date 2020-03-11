@@ -191,6 +191,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
     }
 
     private void rotateLL(Node<K, V> N) {
+        System.out.println("rotateLL");
         Node<K, V> L = N.left;
         Node<K, V> LR = null;
         Node<K, V> NPar = N.parent;
@@ -202,12 +203,17 @@ public class BinaryTree<K extends Comparable<K>, V> {
         if (N.parent == null) {
             root = L;
         }
-        if (L.parent != null) {
-            if (NPar.left == N) {
-                NPar.left = L;
+        if (NPar != null) {
+            if (NPar.left != null) {
+                if (NPar.left.equals(N)) {
+                    NPar.left = L;
+                }
             }
-            else
-                NPar.right = L;
+            if (NPar.right != null) {
+                if (NPar.right.equals(N)) {
+                    NPar.right = L;
+                }
+            }
         }
         N.parent = L;
         N.left = LR;
@@ -221,6 +227,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
     }
 
     private void rotateLR(Node<K, V> N) {
+        System.out.println("rotateLR");
         Node<K, V> LR = N.left.right;
         Node<K, V> LRR = null;
         Node<K, V> NPar = N.parent;
@@ -234,11 +241,16 @@ public class BinaryTree<K extends Comparable<K>, V> {
         LR.left = N.left;
         LR.right = N;
         if (NPar != null) {
-            if (NPar.left == N) {
-                NPar.left = LR;
+            if (NPar.left != null) {
+                if (NPar.left.equals(N)) {
+                    NPar.left = LR;
+                }
             }
-            else
-                NPar.right = LR;
+            if (NPar.right != null) {
+                if (NPar.right.equals(N)) {
+                    NPar.right = LR;
+                }
+            }
         }
         N.left = LRR;
         N.parent = LR;
@@ -258,10 +270,11 @@ public class BinaryTree<K extends Comparable<K>, V> {
 
 
     private void rotateRR(Node<K, V> N) {
+        System.out.println("rotateRR");
         Node<K, V> R = N.right;
         Node<K, V> RL = null;
         Node<K, V> NPar = N.parent;
-        if (R.right != null)
+        if (R.left != null)
             RL = R.left;
 
         R.parent = NPar;
@@ -269,12 +282,17 @@ public class BinaryTree<K extends Comparable<K>, V> {
         if (N.parent == null) {
             root = R;
         }
-        if (R.parent != null) {
-            if (NPar.left == N) {
-                NPar.left = R;
+        if (NPar != null) {
+            if (NPar.left != null) {
+                if (NPar.left.equals(N)) {
+                    NPar.left = R;
+                }
             }
-            else
-                NPar.right = R;
+            if (NPar.right != null) {
+                if (NPar.right.equals(N)) {
+                    NPar.right = R;
+                }
+            }
         }
         N.parent = R;
         N.right = RL;
@@ -288,6 +306,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
     }
 
     private void rotateRL(Node<K, V> N) {
+        System.out.println("rotateRL");
         Node<K, V> RL = N.right.left;
         Node<K, V> RLL = null;
         Node<K, V> NPar = N.parent;
@@ -301,11 +320,16 @@ public class BinaryTree<K extends Comparable<K>, V> {
         RL.right = N.right;
         RL.left = N;
         if (NPar != null) {
-            if (NPar.left == N) {
-                NPar.left = RL;
+            if (NPar.left != null) {
+                if (NPar.left.equals(N)) {
+                    NPar.left = RL;
+                }
             }
-            else
-                NPar.right = RL;
+            if (NPar.right != null) {
+                if (NPar.right.equals(N)) {
+                    NPar.right = RL;
+                }
+            }
         }
         N.right = RLL;
         N.parent = RL;
