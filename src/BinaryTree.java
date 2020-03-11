@@ -133,8 +133,8 @@ public class BinaryTree<K extends Comparable<K>, V> {
         return right;
     }
     private void balance(Node<K, V> cur) {
-        int leftHeight = 0;
-        int rightHeight = 0;
+        int leftHeight = -1;
+        int rightHeight = -1;
         if (cur.left != null)
              leftHeight = cur.left.height;
         if (cur.right != null)

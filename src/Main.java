@@ -8,10 +8,10 @@ public class Main {
 
         int[] keys = new int[20];
         for (int i=0; i<keys.length; ++i)
-            keys[i] = r.nextInt(2);
+            keys[i] = r.nextInt(100);
 
         for (int i=0; i<20; ++i) {
-            tree.add(i, i);
+            tree.add(keys[i], i);
         }
 
         tree.makePic("tree");
