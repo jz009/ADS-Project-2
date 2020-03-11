@@ -152,9 +152,9 @@ public class BinaryTree<K extends Comparable<K>, V> {
             else if (leftChild.left == null) {
                 rotateLR(cur);
             }
-            else if (leftChild.right.height > leftChild.left.height)
-                rotateLR(cur);
-            else rotateLL(cur);
+            else if (leftChild.right.height < leftChild.left.height)
+                rotateLL(cur);
+            else rotateLR(cur);
         }
         else {
             if (rightChild.right == null) {
@@ -239,6 +239,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
 
         LR.parent = NPar;
         LR.left = N.left;
+        LR.left.parent = LR;
         LR.right = N;
         if (NPar != null) {
             if (NPar.left != null) {
@@ -318,6 +319,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
 
         RL.parent = NPar;
         RL.right = N.right;
+        RL.right.parent = RL;
         RL.left = N;
         if (NPar != null) {
             if (NPar.left != null) {

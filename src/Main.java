@@ -18,7 +18,7 @@ public class Main {
 
         var iter = tree.iterator();
         while (iter.hasNext()) {
-            System.out.println(iter.key() + ": " + iter.value());
+       //     System.out.println(iter.key() + ": " + iter.value());
             iter.next();
         }
     }
