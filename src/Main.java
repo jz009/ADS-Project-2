@@ -17,8 +17,11 @@ public class Main {
 
 
         tree.makePic("tree");
-
-        tree.remove(keys[5]);
+        for (int i = 0; i <10; i++) {
+            tree.remove(keys[i]);
+            System.out.println("Removed a node from the tree!");
+            tree.isBalanced();
+        }
         tree.makePic("treeAfterRemove");
         var iter = tree.iterator();
         while (iter.hasNext()) {

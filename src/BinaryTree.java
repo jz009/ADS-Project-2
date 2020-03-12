@@ -110,9 +110,10 @@ public class BinaryTree<K extends Comparable<K>, V> {
                 var rightMin = minNode(cur.right);
 
                 LinkedList<Node<K, V>> stack2 = findSearchPath(cur);
-
+                Node<K, V> test;
                 while(!stack2.isEmpty())
                     stack.add(stack2.remove());
+
 
                 // place rightMin's data here; this node is hooked up right
                 cur.key = rightMin.key;
@@ -154,7 +155,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
         cur = cur.right;
         while (cur.left != null) {
             cur = cur.left;
-            out.add(cur.left);
+            out.add(cur);
         }
         return out;
     }
@@ -223,7 +224,6 @@ public class BinaryTree<K extends Comparable<K>, V> {
     }
 
     private void rotateLL(Node<K, V> N) {
-        System.out.println("rotateLL");
         Node<K, V> L = N.left;
         Node<K, V> LR = null;
         Node<K, V> NPar = N.parent;
@@ -259,7 +259,6 @@ public class BinaryTree<K extends Comparable<K>, V> {
     }
 
     private void rotateLR(Node<K, V> N) {
-        System.out.println("rotateLR");
         Node<K, V> LR = N.left.right;
         Node<K, V> LRR = null;
         Node<K, V> NPar = N.parent;
@@ -304,7 +303,6 @@ public class BinaryTree<K extends Comparable<K>, V> {
 
 
     private void rotateRR(Node<K, V> N) {
-        System.out.println("rotateRR");
         Node<K, V> R = N.right;
         Node<K, V> RL = null;
         Node<K, V> NPar = N.parent;
@@ -340,7 +338,6 @@ public class BinaryTree<K extends Comparable<K>, V> {
     }
 
     private void rotateRL(Node<K, V> N) {
-        System.out.println("rotateRL");
         Node<K, V> RL = N.right.left;
         Node<K, V> RLL = null;
         Node<K, V> NPar = N.parent;
@@ -422,6 +419,25 @@ public class BinaryTree<K extends Comparable<K>, V> {
         }
     }
 
+    public void isBalanced() {
+        if (isBalanced(root)) {
+            System.out.println("This tree is balanced!");
+        }
+    }
+
+    private Boolean isBalanced(Node<K, V> root) {
+        Boolean isRight;
+        Boolean isLeft;
+        if (root.right != null) {
+            isRight = isBalanced(root.right);
+        }
+        else isRight = true;
+        if (root.left != null) {
+            isLeft = isBalanced(root.left);
+        }
+        else isLeft = true;
+        return isRight && isLeft;
+    }
     private void dotNode(Node<K, V> cur, PrintWriter file) {
         if (cur == null)
             return;
