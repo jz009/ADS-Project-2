@@ -161,6 +161,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
         }
         else if(c == 0){
             //Not sure if I should add to stack on this step
+            out.add(cur);
             return out;
         }
         else{
