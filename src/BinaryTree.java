@@ -98,7 +98,6 @@ public class BinaryTree<K extends Comparable<K>, V> {
         else {
             // found our value.
             V temp = cur.value;
-            // several cases to consider.
             if (cur.left == null && cur.right == null) {
                 if (cur.parent == null)
                     root = null;
