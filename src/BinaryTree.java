@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Comparator;
 import java.util.Random;
+import java.util.Stack;
 
 public class BinaryTree<K extends Comparable<K>, V> {
     private Node<K, V> root;
@@ -74,21 +75,26 @@ public class BinaryTree<K extends Comparable<K>, V> {
     }
 
     public V remove(K key) {
-        var v = remove(key, root);
+        Stack<Node<K,V>> stack = new Stack<>();
+        var v = remove(key, root, stack);
         if (v != null)
             size--;
         return v;
     }
 
-    private V remove(K key, Node<K,V> cur) {
+    private V remove(K key, Node<K,V> cur, Stack<Node<K,V>> stack) {
         if (cur == null)
             return null;
 
         int c = comp.compare(key, cur.key);
-        if (c < 0)
-            return remove(key, cur.left);
-        else if (c > 0)
-            return remove(key, cur.right);
+        if (c < 0) {
+            stack.add(cur);
+            return remove(key, cur.left, stack);
+        }
+        else if (c > 0) {
+            stack.add(cur);
+            return remove(key, cur.right, stack);
+        }
         else {
             // found our value.
             V temp = cur.value;
@@ -103,7 +109,10 @@ public class BinaryTree<K extends Comparable<K>, V> {
             }
             else if (cur.left != null && cur.right != null) {
                 // find the value in the right subtree
+                //TODO findSearchPath method
                 var rightMin = minNode(cur.right);
+
+                // Stack<Node<K, V>> stack2 = findSearchPath(rightMin);
                 // place rightMin's data here; this node is hooked up right
                 cur.key = rightMin.key;
                 cur.value = rightMin.value;
@@ -123,6 +132,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
                 // childNode's left and right are fine. update its parent.
                 childNode.parent = cur.parent;
             }
+            //TODO pop stacks
             return temp;
         }
     }
