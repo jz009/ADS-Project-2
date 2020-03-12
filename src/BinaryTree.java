@@ -305,6 +305,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
         if (LR.parent == null) {
             root = LR;
         }
+        //Might not need to reset height here?
         LR.left.resetHeight();
         N.resetHeight();
         LR.resetHeight();
