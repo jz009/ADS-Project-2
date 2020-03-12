@@ -112,13 +112,17 @@ public class BinaryTree<K extends Comparable<K>, V> {
                 //TODO findSearchPath method
                 var rightMin = minNode(cur.right);
 
-                // Stack<Node<K, V>> stack2 = findSearchPath(rightMin);
+                Stack<Node<K, V>> stack2 = findSearchPath(rightMin.key);
+
+                while(!stack2.isEmpty())
+                    stack.add(stack2.pop());
+
                 // place rightMin's data here; this node is hooked up right
                 cur.key = rightMin.key;
                 cur.value = rightMin.value;
                 // remove rightMin. This call will do it recursively. Note we
                 // ARE NOT returning the result!
-                remove(rightMin.key, rightMin);
+                remove(rightMin.key, rightMin, stack);
             }
             else  { // exactly one child. Find and promote it.
                 var childNode = (cur.left != null) ? cur.left : cur.right;
@@ -132,8 +136,36 @@ public class BinaryTree<K extends Comparable<K>, V> {
                 // childNode's left and right are fine. update its parent.
                 childNode.parent = cur.parent;
             }
-            //TODO pop stacks
+            //TODO not sure if this is right
+            while(!stack.isEmpty()){
+                Node<K,V> pop = stack.pop();
+                pop.resetHeight();
+                balance(pop);
+            }
             return temp;
+        }
+    }
+
+    public Stack<Node<K,V>> findSearchPath(K search){
+        Stack<Node<K,V>> out = new Stack<>();
+        return findSearchPath(search, root, out);
+    }
+
+    private Stack<Node<K,V>> findSearchPath(K search, Node<K, V> cur, Stack<Node<K,V>> out){
+        if(cur == null)
+            return null;
+        int c = comp.compare(search, cur.key);
+        if (c < 0){
+            out.add(cur);
+            return findSearchPath(search, cur.left, out);
+        }
+        else if(c == 0){
+            //Not sure if I should add to stack on this step
+            return out;
+        }
+        else{
+            out.add(cur);
+            return findSearchPath(search, cur.right, out);
         }
     }
 
