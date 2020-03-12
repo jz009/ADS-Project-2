@@ -2,9 +2,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Comparator;
-import java.util.Random;
-import java.util.Stack;
+import java.util.*;
 
 public class BinaryTree<K extends Comparable<K>, V> {
     private Node<K, V> root;
@@ -111,10 +109,10 @@ public class BinaryTree<K extends Comparable<K>, V> {
                 //TODO findSearchPath method
                 var rightMin = minNode(cur.right);
 
-                Stack<Node<K, V>> stack2 = findSearchPath(rightMin.key);
+                LinkedList<Node<K, V>> stack2 = findSearchPath(cur);
 
                 while(!stack2.isEmpty())
-                    stack.add(stack2.pop());
+                    stack.add(stack2.remove());
 
                 // place rightMin's data here; this node is hooked up right
                 cur.key = rightMin.key;
@@ -145,28 +143,20 @@ public class BinaryTree<K extends Comparable<K>, V> {
         }
     }
 
-    public Stack<Node<K,V>> findSearchPath(K search){
-        Stack<Node<K,V>> out = new Stack<>();
-        return findSearchPath(search, root, out);
+    public LinkedList<Node<K,V>> findSearchPath(Node<K, V> root){
+        LinkedList<Node<K,V>> out = new LinkedList<>();
+        return findSearchPath(root, out);
     }
 
-    private Stack<Node<K,V>> findSearchPath(K search, Node<K, V> cur, Stack<Node<K,V>> out){
-        if(cur == null)
-            return null;
-        int c = comp.compare(search, cur.key);
-        if (c < 0){
-            out.add(cur);
-            return findSearchPath(search, cur.left, out);
+    private LinkedList<Node<K,V>> findSearchPath(Node<K, V> cur, LinkedList<Node<K,V>> out){
+        out.add(cur);
+        out.add(cur.right);
+        cur = cur.right;
+        while (cur.left != null) {
+            cur = cur.left;
+            out.add(cur.left);
         }
-        else if(c == 0){
-            //Not sure if I should add to stack on this step
-            out.add(cur);
-            return out;
-        }
-        else{
-            out.add(cur);
-            return findSearchPath(search, cur.right, out);
-        }
+        return out;
     }
 
     private Node<K, V> minNode(Node<K,V> right) {

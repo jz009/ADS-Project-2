@@ -14,12 +14,12 @@ public class Main {
             tree.add(keys[i], i);
         }
 
-        for(int i=0; i < 15; ++i){
-            tree.remove(keys[i]);
-        }
+
 
         tree.makePic("tree");
 
+        tree.remove(keys[5]);
+        tree.makePic("treeAfterRemove");
         var iter = tree.iterator();
         while (iter.hasNext()) {
             System.out.println(iter.key() + ": " + iter.value());
