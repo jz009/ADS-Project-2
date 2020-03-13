@@ -2,9 +2,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Comparator;
-import java.util.Random;
-import java.util.Stack;
+import java.util.*;
 
 public class BinaryTree<K extends Comparable<K>, V> {
     private Node<K, V> root;
@@ -111,10 +109,11 @@ public class BinaryTree<K extends Comparable<K>, V> {
                 //TODO findSearchPath method
                 var rightMin = minNode(cur.right);
 
-                Stack<Node<K, V>> stack2 = findSearchPath(rightMin.key);
-
+                LinkedList<Node<K, V>> stack2 = findSearchPath(cur);
+                Node<K, V> test;
                 while(!stack2.isEmpty())
-                    stack.add(stack2.pop());
+                    stack.add(stack2.remove());
+
 
                 // place rightMin's data here; this node is hooked up right
                 cur.key = rightMin.key;
@@ -145,28 +144,20 @@ public class BinaryTree<K extends Comparable<K>, V> {
         }
     }
 
-    public Stack<Node<K,V>> findSearchPath(K search){
-        Stack<Node<K,V>> out = new Stack<>();
-        return findSearchPath(search, root, out);
+    public LinkedList<Node<K,V>> findSearchPath(Node<K, V> root){
+        LinkedList<Node<K,V>> out = new LinkedList<>();
+        return findSearchPath(root, out);
     }
 
-    private Stack<Node<K,V>> findSearchPath(K search, Node<K, V> cur, Stack<Node<K,V>> out){
-        if(cur == null)
-            return null;
-        int c = comp.compare(search, cur.key);
-        if (c < 0){
+    private LinkedList<Node<K,V>> findSearchPath(Node<K, V> cur, LinkedList<Node<K,V>> out){
+        out.add(cur);
+        out.add(cur.right);
+        cur = cur.right;
+        while (cur.left != null) {
+            cur = cur.left;
             out.add(cur);
-            return findSearchPath(search, cur.left, out);
         }
-        else if(c == 0){
-            //Not sure if I should add to stack on this step
-            out.add(cur);
-            return out;
-        }
-        else{
-            out.add(cur);
-            return findSearchPath(search, cur.right, out);
-        }
+        return out;
     }
 
     private Node<K, V> minNode(Node<K,V> right) {
@@ -233,7 +224,6 @@ public class BinaryTree<K extends Comparable<K>, V> {
     }
 
     private void rotateLL(Node<K, V> N) {
-        System.out.println("rotateLL");
         Node<K, V> L = N.left;
         Node<K, V> LR = null;
         Node<K, V> NPar = N.parent;
@@ -269,7 +259,6 @@ public class BinaryTree<K extends Comparable<K>, V> {
     }
 
     private void rotateLR(Node<K, V> N) {
-        System.out.println("rotateLR");
         Node<K, V> LR = N.left.right;
         Node<K, V> LRR = null;
         Node<K, V> NPar = N.parent;
@@ -314,7 +303,6 @@ public class BinaryTree<K extends Comparable<K>, V> {
 
 
     private void rotateRR(Node<K, V> N) {
-        System.out.println("rotateRR");
         Node<K, V> R = N.right;
         Node<K, V> RL = null;
         Node<K, V> NPar = N.parent;
@@ -350,7 +338,6 @@ public class BinaryTree<K extends Comparable<K>, V> {
     }
 
     private void rotateRL(Node<K, V> N) {
-        System.out.println("rotateRL");
         Node<K, V> RL = N.right.left;
         Node<K, V> RLL = null;
         Node<K, V> NPar = N.parent;
@@ -432,6 +419,25 @@ public class BinaryTree<K extends Comparable<K>, V> {
         }
     }
 
+    public void isBalanced() {
+        if (isBalanced(root)) {
+            System.out.println("This tree is balanced!");
+        }
+    }
+
+    private Boolean isBalanced(Node<K, V> root) {
+        Boolean isRight;
+        Boolean isLeft;
+        if (root.right != null) {
+            isRight = isBalanced(root.right);
+        }
+        else isRight = true;
+        if (root.left != null) {
+            isLeft = isBalanced(root.left);
+        }
+        else isLeft = true;
+        return isRight && isLeft;
+    }
     private void dotNode(Node<K, V> cur, PrintWriter file) {
         if (cur == null)
             return;
