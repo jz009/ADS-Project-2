@@ -3,3 +3,6 @@
 Evan - I worked on the right side rotations, and the remove() method.
 Before we implemented add() and remove() we met together to debug
 the rotationRL method, as it was causing many errors.
+
+Jamie - I wrote the left side rotations, the balance() method, and implemented it into the add method. I wrote the
+test stuff too like isBalanced()

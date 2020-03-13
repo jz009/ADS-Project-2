@@ -423,6 +423,9 @@ public class BinaryTree<K extends Comparable<K>, V> {
         if (isBalanced(root)) {
             System.out.println("This tree is balanced!");
         }
+        else {
+            System.out.println("NOT BALANCED-------------------------");
+        }
     }
 
     private Boolean isBalanced(Node<K, V> root) {
